@@ -1,0 +1,208 @@
+{
+    "dataset_summary": {
+        "total_records": 25000,
+        "total_customers": 8442,
+        "total_products": 899,
+        "total_revenue": 10116169.06,
+        "overall_purchase_rate": 0.22464
+    },
+    "spending_prediction": {
+        "model": "Linear Regression",
+        "features": [
+            "total_sessions",
+            "total_cart_adds",
+            "avg_pages_viewed",
+            "avg_time_on_site_sec",
+            "avg_discount_received",
+            "recency_days"
+        ],
+        "metrics": {
+            "mae": 1173.5156153354446,
+            "mse": 2817111.163511024,
+            "rmse": 1678.4252034305919,
+            "r2": 0.1837568789620121
+        },
+        "coefficients": {
+            "total_sessions": 86.5196989418272,
+            "total_cart_adds": 740.501146042798,
+            "avg_pages_viewed": 6.3249713321881025,
+            "avg_time_on_site_sec": 43.58394625295224,
+            "avg_discount_received": -78.61668443795224,
+            "recency_days": 4.8225599687786485
+        },
+        "intercept": 1195.5989500962535
+    },
+    "purchase_prediction": {
+        "model": "Logistic Regression (Class-Balanced, Leakage-Free)",
+        "features": [
+            "pages_viewed",
+            "time_on_site_sec",
+            "added_to_cart",
+            "discount_percent",
+            "unit_price",
+            "quantity",
+            "device_type",
+            "marketing_channel",
+            "user_type",
+            "visit_month",
+            "visit_season",
+            "visit_weekday",
+            "location"
+        ],
+        "metrics": {
+            "accuracy": 0.5726,
+            "precision": 0.344478527607362,
+            "recall": 1.0,
+            "f1": 0.512434405658225,
+            "roc_auc": 0.7628733143448669,
+            "confusion_matrix": [
+                [
+                    1740,
+                    2137
+                ],
+                [
+                    0,
+                    1123
+                ]
+            ]
+        },
+        "coefficients": {
+            "pages_viewed": -0.0021475689029043683,
+            "time_on_site_sec": 0.10049589723758885,
+            "added_to_cart": 4.037934725704644,
+            "discount_percent": -0.0059088937689391625,
+            "unit_price": 0.017740078466447727,
+            "quantity": -0.004499620614632887,
+            "device_type": 0.006431785409472808,
+            "marketing_channel": 0.02441731508487436,
+            "user_type": 0.2468625388145002,
+            "visit_month": -0.004074187196584382,
+            "visit_season": 0.018049991319410902,
+            "visit_weekday": -0.020349183274952005,
+            "location": 0.0015693850956951718
+        },
+        "intercept": -2.4019271702923786
+    },
+    "customer_segmentation": {
+        "model": "K-Means Clustering",
+        "features": [
+            "recency_days",
+            "total_sessions",
+            "total_purchases",
+            "total_revenue",
+            "avg_pages_viewed",
+            "cart_abandonment_rate"
+        ],
+        "selected_k": 3,
+        "k_evaluations": {
+            "2": {
+                "k": 2,
+                "inertia": 37652.58907507235,
+                "silhouette_score": 0.24154510138775126,
+                "davies_bouldin_index": 1.5780929431957027
+            },
+            "3": {
+                "k": 3,
+                "inertia": 30318.862371387717,
+                "silhouette_score": 0.2653669265378821,
+                "davies_bouldin_index": 1.458615542888861
+            },
+            "4": {
+                "k": 4,
+                "inertia": 26834.68761995888,
+                "silhouette_score": 0.24121590933528644,
+                "davies_bouldin_index": 1.4375442880023064
+            },
+            "5": {
+                "k": 5,
+                "inertia": 23959.04562256168,
+                "silhouette_score": 0.22479136414798376,
+                "davies_bouldin_index": 1.4042170156020437
+            },
+            "6": {
+                "k": 6,
+                "inertia": 21709.633581812577,
+                "silhouette_score": 0.23576466382472738,
+                "davies_bouldin_index": 1.4372535860506643
+            }
+        },
+        "cluster_profiles": [
+            {
+                "cluster": 0,
+                "customer_count": 3384,
+                "avg_revenue": 11.147174940898346,
+                "avg_purchases": 0.02541371158392435,
+                "avg_sessions": 2.6950354609929077,
+                "avg_recency": 111.88475177304964,
+                "avg_cart_abandon": 0.9920262017336486,
+                "segment_name": "Occasional Low-Engagement Customers"
+            },
+            {
+                "cluster": 1,
+                "customer_count": 2320,
+                "avg_revenue": 840.0998793103448,
+                "avg_purchases": 0.6107758620689655,
+                "avg_sessions": 1.8362068965517242,
+                "avg_recency": 150.68706896551726,
+                "avg_cart_abandon": 0.11149425287356322,
+                "segment_name": "Regular Engaged Customers"
+            },
+            {
+                "cluster": 2,
+                "customer_count": 2738,
+                "avg_revenue": 2969.107121986852,
+                "avg_purchases": 1.5021913805697589,
+                "avg_sessions": 4.243973703433163,
+                "avg_recency": 62.07779401022644,
+                "avg_cart_abandon": 0.45877972567161757,
+                "segment_name": "Premium High-Value Customers"
+            }
+        ]
+    },
+    "recommendation_system": {
+        "model": "K-Nearest Neighbors (KNN - Cosine Distance)",
+        "features": [
+            "category",
+            "unit_price",
+            "avg_rating",
+            "purchase_count",
+            "view_count"
+        ],
+        "catalog_size": 899,
+        "sample_recommendation": {
+            "query_product_id": 0,
+            "recommended": [
+                {
+                    "product_id": 188,
+                    "category": 6,
+                    "unit_price": 871.5500000000001,
+                    "similarity": 0.9736489673405814
+                },
+                {
+                    "product_id": 625,
+                    "category": 7,
+                    "unit_price": 931.9997142857143,
+                    "similarity": 0.9259907367422977
+                },
+                {
+                    "product_id": 776,
+                    "category": 7,
+                    "unit_price": 860.024411764706,
+                    "similarity": 0.9230045713869139
+                },
+                {
+                    "product_id": 174,
+                    "category": 6,
+                    "unit_price": 876.5862068965517,
+                    "similarity": 0.9221137030698254
+                },
+                {
+                    "product_id": 268,
+                    "category": 7,
+                    "unit_price": 818.5854838709678,
+                    "similarity": 0.9122602441487123
+                }
+            ]
+        }
+    }
+}
