@@ -27,7 +27,9 @@ pnpm-debug.log*
 frontend/dist/
 frontend/dist-ssr/
 frontend/.cache/
+frontend/.vite/
 frontend/node_modules/
+.vite/
 
 # Environment Variables & Secrets
 .env
