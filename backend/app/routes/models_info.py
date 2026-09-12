@@ -8,7 +8,9 @@ from pathlib import Path
 from fastapi import APIRouter
 
 try:
+    # pyrefly: ignore [missing-import]
     from ..services.ml_service import ml_service
+    # pyrefly: ignore [missing-import]
     from ..schemas import ModelPerformanceResponse
 except (ImportError, ValueError):
     backend_dir = Path(__file__).resolve().parent.parent.parent

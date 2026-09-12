@@ -10,9 +10,13 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 try:
+    # pyrefly: ignore [missing-import]
     from ..database import get_db
+    # pyrefly: ignore [missing-import]
     from ..models import Customer
+    # pyrefly: ignore [missing-import]
     from ..schemas import CustomerResponse, CustomerListResponse
+    # pyrefly: ignore [missing-import]
     from ..services.ml_service import ml_service
 except (ImportError, ValueError):
     backend_dir = Path(__file__).resolve().parent.parent.parent

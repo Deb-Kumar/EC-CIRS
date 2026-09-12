@@ -38,7 +38,7 @@ except (ImportError, ValueError):
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="E-Commerce Customer Intelligence & Recommendation API",
+    title="EC-CIRS: E-Commerce Customer Intelligence & Recommendation System Backend",
     description="REST API backend powering customer segmentation, spending prediction, conversion scoring, and product recommendations.",
     version="1.0.0",
     docs_url="/docs",

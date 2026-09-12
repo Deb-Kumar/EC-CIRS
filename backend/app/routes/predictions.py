@@ -8,6 +8,7 @@ from pathlib import Path
 from fastapi import APIRouter
 
 try:
+    # pyrefly: ignore [missing-import]
     from ..schemas import (
         SpendingPredictionRequest,
         SpendingPredictionResponse,
@@ -16,6 +17,7 @@ try:
         SegmentPredictionRequest,
         SegmentPredictionResponse
     )
+    # pyrefly: ignore [missing-import]
     from ..services.ml_service import ml_service
 except (ImportError, ValueError):
     backend_dir = Path(__file__).resolve().parent.parent.parent

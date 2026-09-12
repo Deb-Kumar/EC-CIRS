@@ -1,3 +1,4 @@
 """
-E-Commerce Customer Intelligence Backend Package
+EC-CIRS: E-Commerce Customer Intelligence & Personalized Recommendation System
+Backend Package
 """
