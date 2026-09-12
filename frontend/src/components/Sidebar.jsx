@@ -10,7 +10,8 @@ import {
   BarChart3,
   ShieldCheck,
   ChevronRight,
-  Database
+  Database,
+  Code2
 } from "lucide-react";
 
 export default function Sidebar({ activeTab, setActiveTab, totalCustomers, totalRecords }) {
@@ -143,25 +144,36 @@ export default function Sidebar({ activeTab, setActiveTab, totalCustomers, total
         })}
       </nav>
 
-      {/* Footer System Status */}
+      {/* Footer Developer Credits */}
       <div style={{
         padding: "16px 20px",
         borderTop: "1px solid var(--border-color)",
         background: "rgba(10, 15, 28, 0.6)",
         display: "flex",
         alignItems: "center",
-        gap: "10px"
+        gap: "12px"
       }}>
         <div style={{
-          width: "8px",
-          height: "8px",
-          borderRadius: "50%",
-          background: "#10b981",
-          boxShadow: "0 0 8px #10b981"
-        }} />
+          width: "32px",
+          height: "32px",
+          borderRadius: "8px",
+          background: "rgba(59, 130, 246, 0.12)",
+          border: "1px solid rgba(59, 130, 246, 0.3)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "0 0 10px rgba(59, 130, 246, 0.2)",
+          flexShrink: 0
+        }}>
+          <Code2 size={16} color="#60a5fa" />
+        </div>
         <div>
-          <div style={{ fontSize: "12px", fontWeight: 600, color: "#fff" }}>Models Engine</div>
-          <div style={{ fontSize: "10.5px", color: "var(--text-muted)" }}>FastAPI :8000 Online</div>
+          <div style={{ fontSize: "11px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.02em" }}>
+            Developed By
+          </div>
+          <div style={{ fontSize: "12.5px", fontWeight: 700, color: "#fff", letterSpacing: "0.01em" }}>
+            DEB KUMAR ❤️❤️
+          </div>
         </div>
       </div>
     </aside>

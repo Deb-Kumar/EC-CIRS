@@ -99,7 +99,7 @@ export default function Footer({ setActiveTab }) {
                 </span>
               </div>
               <p style={{ fontSize: "11px", color: "var(--text-dim)", marginTop: "1px" }}>
-                E-Commerce Customer Intelligence & Recommendation Platform
+                E-Commerce Customer Intelligence & Recommendation System
               </p>
             </div>
           </div>
