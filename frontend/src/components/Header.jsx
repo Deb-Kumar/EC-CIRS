@@ -1,7 +1,7 @@
 import React from "react";
 import { Search, Bell, Database, CheckCircle2, Shield } from "lucide-react";
 
-export default function Header({ title, subtitle, apiOnline }) {
+export default function Header({ title, subtitle, apiOnline, totalRecords }) {
   return (
     <header style={{
       height: "72px",
@@ -65,7 +65,7 @@ export default function Header({ title, subtitle, apiOnline }) {
           color: "var(--text-muted)"
         }}>
           <Database size={13} color="#94a3b8" />
-          <span>25,000 Records</span>
+          <span>{totalRecords != null ? `${Number(totalRecords).toLocaleString()} Records` : "Dataset Records"}</span>
         </div>
 
 

@@ -179,7 +179,7 @@ export default function DatasetPage() {
               <Database size={13} color="#34d399" /> LIVE DATASET REPOSITORY
             </span>
             <span style={{ fontSize: "12px", color: "var(--text-dim)" }}>
-              Ecommerce.csv • 25,000 Transactions • 29 Engineered Attributes
+              Ecommerce.csv • {summary?.total_transactions ? `${summary.total_transactions.toLocaleString()} Transactions` : "Verified Transactions"} • 29 Engineered Attributes
             </span>
           </div>
           <h2 style={{ fontSize: "24px", color: "#fff", fontWeight: 700 }}>
@@ -219,10 +219,10 @@ export default function DatasetPage() {
             <FileSpreadsheet size={18} color="#3b82f6" />
           </div>
           <div style={{ fontSize: "24px", fontWeight: 700, color: "#fff" }}>
-            {summary ? summary.total_transactions.toLocaleString() : "25,000"}
+            {summary ? summary.total_transactions.toLocaleString() : "Live Records"}
           </div>
           <span style={{ fontSize: "11px", color: "#93c5fd" }}>
-            Across 8,442 Unique Customers
+            Across {summary?.total_customers ? `${summary.total_customers.toLocaleString()} Unique Customers` : "Unique Customers"}
           </span>
         </div>
 
@@ -285,7 +285,7 @@ export default function DatasetPage() {
             transition: "all 0.2s"
           }}
         >
-          <ShoppingBag size={16} /> Raw Transactions (25k)
+          <ShoppingBag size={16} /> Raw Transactions ({summary?.total_transactions ? (summary.total_transactions >= 1000 ? `${(summary.total_transactions / 1000).toFixed(0)}k` : summary.total_transactions) : "Live"})
         </button>
 
         <button
@@ -305,7 +305,7 @@ export default function DatasetPage() {
             transition: "all 0.2s"
           }}
         >
-          <Users size={16} /> Customer Profiles (8.4k)
+          <Users size={16} /> Customer Profiles ({summary?.total_customers ? (summary.total_customers >= 1000 ? `${(summary.total_customers / 1000).toFixed(1)}k` : summary.total_customers) : "Live"})
         </button>
 
         <button
@@ -325,7 +325,7 @@ export default function DatasetPage() {
             transition: "all 0.2s"
           }}
         >
-          <Tag size={16} /> Product Catalog (899)
+          <Tag size={16} /> Product Catalog ({summary?.total_products ? summary.total_products.toLocaleString() : "Catalog"})
         </button>
       </div>
 

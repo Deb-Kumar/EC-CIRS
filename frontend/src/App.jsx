@@ -22,6 +22,11 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [apiOnline, setApiOnline] = useState(true);
   const [recommendCustomerId, setRecommendCustomerId] = useState(null);
+  const [stats, setStats] = useState({
+    totalRecords: null,
+    totalCustomers: null,
+    totalProducts: null
+  });
 
   useEffect(() => {
     async function checkBackend() {
@@ -36,6 +41,24 @@ export default function App() {
     const timer = setInterval(checkBackend, 15000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await api.getDatasetSummary();
+        if (res?.overview) {
+          setStats({
+            totalRecords: res.overview.total_transactions,
+            totalCustomers: res.overview.total_customers,
+            totalProducts: res.overview.total_products
+          });
+        }
+      } catch (err) {
+        console.warn("Could not fetch dataset summary stats:", err);
+      }
+    }
+    fetchStats();
+  }, [apiOnline]);
 
   const handleSelectCustomerForRecommend = (customerId) => {
     setRecommendCustomerId(customerId);
@@ -65,13 +88,19 @@ export default function App() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "var(--bg-main)" }}>
       {/* Sidebar Navigation */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        totalCustomers={stats.totalCustomers}
+        totalRecords={stats.totalRecords}
+      />
 
       {/* Main Content Area */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
         <Header
           title={getPageTitle()}
           apiOnline={apiOnline}
+          totalRecords={stats.totalRecords}
         />
 
         <main style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>

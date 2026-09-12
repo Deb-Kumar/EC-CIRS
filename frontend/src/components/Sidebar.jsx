@@ -13,17 +13,24 @@ import {
   Database
 } from "lucide-react";
 
-export default function Sidebar({ activeTab, setActiveTab }) {
+export default function Sidebar({ activeTab, setActiveTab, totalCustomers, totalRecords }) {
+  const formatCount = (num) => {
+    if (num == null) return "";
+    if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
+    return num.toLocaleString();
+  };
+
   const navItems = [
     { id: "overview", label: "Dashboard", icon: LayoutDashboard, badge: "Overview" },
-    { id: "customers", label: "Customers", icon: Users, count: "8.4k" },
+    { id: "customers", label: "Customers", icon: Users, count: formatCount(totalCustomers) },
     { id: "spending", label: "Spending Prediction", icon: TrendingUp, model: "Linear Reg" },
     { id: "purchase", label: "Purchase Probability", icon: ShoppingCart, model: "Logistic Reg" },
     { id: "recommendations", label: "Product Recommender", icon: Sparkles, model: "KNN" },
     { id: "segments", label: "Customer Segments", icon: PieChart, model: "K-Means" },
     { id: "models", label: "Model Scorecard", icon: Cpu, badge: "Metrics" },
     { id: "analytics", label: "Funnel & Trends", icon: BarChart3 },
-    { id: "dataset", label: "Dataset Explorer", icon: Database, count: "25k", badge: "Live" }
+    { id: "dataset", label: "Dataset Explorer", icon: Database, count: formatCount(totalRecords), badge: "Live" }
   ];
 
   return (

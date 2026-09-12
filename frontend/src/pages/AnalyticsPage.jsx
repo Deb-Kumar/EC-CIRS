@@ -203,7 +203,7 @@ export default function AnalyticsPage() {
               <Activity size={13} color="#34d399" /> MULTI-DIMENSIONAL INTELLIGENCE
             </span>
             <span style={{ fontSize: "12px", color: "var(--text-dim)" }}>
-              25,000 Transactions Analyzed
+              {funnelData?.stages?.[0]?.count ? `${funnelData.stages[0].count.toLocaleString()} Transactions Analyzed` : "Full Dataset Analyzed"}
             </span>
           </div>
           <h2 style={{ fontSize: "24px", color: "#fff", fontWeight: 700 }}>
@@ -986,7 +986,7 @@ export default function AnalyticsPage() {
               Total Gross Platform Revenue Analyzed: ₹1,01,16,169.06
             </div>
             <div style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>
-              Calculated across 25,000 recorded customer sessions • 8,442 unique buyers • 8 product categories.
+              Calculated across {funnelData?.stages?.[0]?.count ? `${funnelData.stages[0].count.toLocaleString()} recorded customer sessions` : "recorded customer sessions"} • Multi-device telemetry.
             </div>
           </div>
         </div>
