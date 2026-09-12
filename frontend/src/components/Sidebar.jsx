@@ -71,8 +71,8 @@ export default function Sidebar({ activeTab, setActiveTab, totalCustomers, total
           <h2 style={{ fontSize: "17px", fontWeight: 700, letterSpacing: "-0.01em", color: "#fff" }}>
             EC-CIRS
           </h2>
-          <p style={{ fontSize: "11px", color: "var(--text-muted)", fontWeight: 500 }}>
-            Customer Intelligence ML
+          <p style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 500 }}>
+            Customer Intelligence & Recommender System
           </p>
         </div>
       </div>
@@ -171,9 +171,32 @@ export default function Sidebar({ activeTab, setActiveTab, totalCustomers, total
           <div style={{ fontSize: "11px", fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.02em" }}>
             Developed By
           </div>
-          <div style={{ fontSize: "12.5px", fontWeight: 700, color: "#fff", letterSpacing: "0.01em" }}>
+          <a
+            href="https://www.instagram.com/alexx__285"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "12.5px",
+              fontWeight: 700,
+              color: "#fff",
+              letterSpacing: "0.01em",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              cursor: "pointer",
+              transition: "all 0.2s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#60a5fa";
+              e.currentTarget.style.textDecoration = "underline";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.textDecoration = "none";
+            }}
+          >
             DEB KUMAR ❤️❤️
-          </div>
+          </a>
         </div>
       </div>
     </aside>
