@@ -29,8 +29,25 @@ async function request(endpoint, options = {}) {
 
 export const api = {
   // 1. Health
-  checkHealth: async () => {
-    return request("/health");
+  checkHealth: async (timeoutMs = 2000) => {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(`${API_BASE_URL}/health?_t=${Date.now()}`, {
+        signal: controller.signal,
+        cache: "no-store",
+        headers: {
+          "Cache-Control": "no-cache",
+          "Pragma": "no-cache"
+        }
+      });
+      clearTimeout(id);
+      if (!res.ok) throw new Error("Health check non-200");
+      return await res.json();
+    } catch (err) {
+      clearTimeout(id);
+      throw err;
+    }
   },
 
   // 2. Analytics

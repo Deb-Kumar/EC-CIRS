@@ -20,7 +20,7 @@ import { api } from "./services/api";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [apiOnline, setApiOnline] = useState(true);
+  const [apiOnline, setApiOnline] = useState(false);
   const [recommendCustomerId, setRecommendCustomerId] = useState(null);
   const [stats, setStats] = useState({
     totalRecords: null,
@@ -29,17 +29,28 @@ export default function App() {
   });
 
   useEffect(() => {
+    let isMounted = true;
     async function checkBackend() {
       try {
         await api.checkHealth();
-        setApiOnline(true);
+        if (isMounted) setApiOnline(true);
       } catch {
-        setApiOnline(false);
+        if (isMounted) setApiOnline(false);
       }
     }
     checkBackend();
-    const timer = setInterval(checkBackend, 15000);
-    return () => clearInterval(timer);
+    // Fast 3-second heartbeat to instantly detect when backend starts or terminates
+    const timer = setInterval(checkBackend, 3000);
+
+    // Re-check immediately when user switches focus back to the browser window
+    const handleFocus = () => checkBackend();
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      isMounted = false;
+      clearInterval(timer);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   useEffect(() => {

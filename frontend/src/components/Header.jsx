@@ -34,22 +34,22 @@ export default function Header({ title, subtitle, apiOnline, totalRecords }) {
           display: "flex",
           alignItems: "center",
           gap: "8px",
-          background: apiOnline ? "rgba(16, 185, 129, 0.12)" : "rgba(245, 158, 11, 0.12)",
-          border: `1px solid ${apiOnline ? "rgba(16, 185, 129, 0.3)" : "rgba(245, 158, 11, 0.3)"}`,
+          background: apiOnline ? "rgba(16, 185, 129, 0.12)" : "rgba(239, 68, 68, 0.12)",
+          border: `1px solid ${apiOnline ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)"}`,
           padding: "6px 12px",
           borderRadius: "9999px",
           fontSize: "12px",
           fontWeight: 600,
-          color: apiOnline ? "#34d399" : "#fbbf24"
+          color: apiOnline ? "#34d399" : "#f87171"
         }}>
           <div style={{
             width: "6px",
             height: "6px",
             borderRadius: "50%",
-            background: apiOnline ? "#10b981" : "#f59e0b",
-            boxShadow: `0 0 6px ${apiOnline ? "#10b981" : "#f59e0b"}`
+            background: apiOnline ? "#10b981" : "#ef4444",
+            boxShadow: `0 0 6px ${apiOnline ? "#10b981" : "#ef4444"}`
           }} />
-          <span>{apiOnline ? "FastAPI Connected" : "Local Inference Mode"}</span>
+          <span>{apiOnline ? "FastAPI Connected" : "FastAPI Disconnected"}</span>
         </div>
 
         {/* Database Stats Pill */}
