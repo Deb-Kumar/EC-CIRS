@@ -297,7 +297,7 @@ export default function DashboardOverview({ setActiveTab }) {
               fontWeight: 600
             }}>
               <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} />
-              FastAPI & 3 ML Models Online
+              FastAPI & 4 ML Models Online
             </span>
           </div>
           <p style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "4px" }}>

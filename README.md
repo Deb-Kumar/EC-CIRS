@@ -24,6 +24,7 @@
   <a href="#-interactive-dashboard-modules">Dashboard UI</a> •
   <a href="#-rest-api-reference">API Reference</a> •
   <a href="#-quickstart--installation">Quickstart</a> •
+  <a href="#-using-custom--other-e-commerce-datasets">Custom Datasets</a> •
   <a href="#-academic-deliverables--viva-qa">Viva Defense</a> •
   <a href="#-documentation-index">Documentation</a>
 </p>
@@ -457,6 +458,62 @@ To reproduce the analysis or retrain the models, execute the sequential notebook
 
 ---
 
+## 🔄 Using Custom / Other E-Commerce Datasets
+
+The platform was built with a **modular, decoupled architecture**, allowing the entire machine learning engine, FastAPI REST API, database, and React analytics dashboard to be reused with **any standard e-commerce or retail transactional dataset** (e.g., Shopify, WooCommerce, Amazon, or Kaggle retail datasets).
+
+### 🛠️ 3-Step Automated Retraining Workflow
+
+You do **not** need to rewrite frontend components or backend routes. Simply run the automated pipeline on your new CSV:
+
+```mermaid
+flowchart LR
+    A["1. Place New CSV<br/>(data/raw/Ecommerce.csv)"] --> B["2. Run Pipeline<br/>(python data/pipeline.py)"]
+    B --> C["3. Re-seed Database<br/>(python backend/seed_db.py)"]
+    C --> D["4. Launch App<br/>(Dashboard Updates Live)"]
+```
+
+1. **Supply New Data:**
+   Place your new dataset at `data/raw/Ecommerce.csv`.
+2. **Execute Retraining Pipeline:**
+   ```bash
+   python data/pipeline.py
+   ```
+   * Automatically cleans the data, handles missing values, and removes outliers.
+   * Computes customer-level RFM (Recency, Frequency, Monetary) and clickstream aggregations.
+   * Retrains all 4 ML models (**Linear Regression**, **Logistic Regression**, **K-Means**, and **KNN**).
+   * Generates new `.pkl` model artifacts, scalers, and empirical benchmark metrics in `models/metadata.json`.
+3. **Re-seed the Database:**
+   ```bash
+   python backend/seed_db.py
+   ```
+   * Replaces SQLite / PostgreSQL records with the newly generated customer cohorts and product catalog.
+4. **Launch & Explore:**
+   Restart the backend (`python backend/app/main.py`) and frontend (`npm run dev`). The dashboard will immediately display your new store's analytics, customer segments, and live prediction outputs.
+
+---
+
+### 📋 Schema Contract & Column Mapping Guide
+
+If your dataset uses different column names, simply map them in `data/pipeline.py` or `notebooks/01_data_loading.ipynb`:
+
+| Expected System Column | Common Alternatives | Description |
+|---|---|---|
+| `customer_id` | `user_id`, `client_id`, `buyer_id`, `cust_id` | Unique customer identifier |
+| `session_id` | `visit_id`, `order_id`, `transaction_id` | Unique session or order record ID |
+| `product_id` | `item_id`, `sku`, `product_code` | Catalog product identifier |
+| `product_category` | `category`, `dept`, `category_code` | Product category code or department name |
+| `unit_price` | `price`, `item_price`, `retail_price` | Product retail price in local currency |
+| `quantity` | `qty`, `items_count`, `volume` | Quantity purchased in session |
+| `revenue` | `sales`, `order_total`, `gross_revenue` | Session or order gross monetary total |
+| `added_to_cart` | `cart_flag`, `has_carted`, `cart_add` | Binary indicator (1 if added to cart, 0 otherwise) |
+| `purchased` | `converted`, `is_purchase`, `order_status` | Binary target (1 if purchased, 0 otherwise) |
+
+> [!NOTE]
+> **Non-E-Commerce Datasets:** Datasets from completely non-retail domains (e.g., healthcare, stock markets) require domain-specific feature engineering, but the 3-tier architecture (FastAPI + Scikit-Learn + React) serves as an adaptable blueprint.
+
+---
+
 ## 🎓 Academic Deliverables & Viva Q&A Guide
 
 This project is structured for academic excellence in **Master of Computer Applications (MCA)** / **M.Sc. Data Science** curricula:
@@ -474,6 +531,9 @@ This project is structured for academic excellence in **Master of Computer Appli
 
 #### Q4: Why is KNN effective for product recommendations in this system?
 > **Answer:** KNN operating over normalized multi-attribute embeddings (category, price, rating, purchase count, view count) using **Cosine Distance** computes geometric similarity between product vectors independent of magnitude. This overcomes the cold-start challenge for new or sparse users and executes in **under 5 milliseconds**.
+
+#### Q5: Can this system be deployed for a different e-commerce store with its own dataset?
+> **Answer:** Yes. The pipeline is decoupled and reproducible. Any e-commerce transactional dataset containing customer, product, and session attributes can be processed simply by placing the CSV in `data/raw/Ecommerce.csv`, running `python data/pipeline.py` to retrain all 4 models and update `models/metadata.json`, and running `python backend/seed_db.py` to re-seed the database. The FastAPI backend and React frontend will immediately reflect the new store's cohorts and predictions without code modifications.
 
 ---
 
