@@ -117,7 +117,7 @@ The project analyzes e-commerce customer behavior and uses machine learning to p
 # 6. Project Directory Layout
 
 ```text
-E-commerce Customer Analysis/
+EC-CIRS/
 │
 ├── data/
 │   ├── raw/

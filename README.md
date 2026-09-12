@@ -1,6 +1,7 @@
-# 🛒 E-Commerce Customer Intelligence & Personalized Recommendation System
+# 🛒 EC-CIRS: E-Commerce Customer Intelligence & Personalized Recommendation System
 
 <p align="center">
+  <a href="https://github.com/Deb-Kumar/EC-CIRS"><img src="https://img.shields.io/badge/GitHub-EC--CIRS-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo" /></a>
   <img src="https://img.shields.io/badge/Project-MCA%20Academic%20Master%20Project-4f46e5?style=for-the-badge&logo=googlescholar&logoColor=white" alt="Academic Project" />
   <img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.14-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python Version" />
   <img src="https://img.shields.io/badge/FastAPI-0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
@@ -305,7 +306,7 @@ erDiagram
 ## 📂 Repository Structure
 
 ```text
-E-commerce Customer Analysis/
+EC-CIRS/
 │
 ├── data/
 │   ├── raw/
@@ -393,8 +394,8 @@ E-commerce Customer Analysis/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/ecommerce-customer-intelligence.git
-cd ecommerce-customer-intelligence
+git clone https://github.com/Deb-Kumar/EC-CIRS.git
+cd EC-CIRS
 ```
 
 ### 2. Backend Setup & Database Seeding
@@ -509,5 +510,5 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ---
 
 <p align="center">
-  Developed with ❤️ for Academic & Engineering Excellence • <strong>DEV KUMAR</strong>
+  Developed with ❤️ for Academic & Engineering Excellence • <a href="https://github.com/Deb-Kumar"><strong>DEV KUMAR</strong></a>
 </p>
