@@ -41,6 +41,7 @@ export default function DatasetPage() {
 
   // Filters and Pagination
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchField, setSearchField] = useState("all");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [purchasedFilter, setPurchasedFilter] = useState("");
@@ -94,6 +95,7 @@ export default function DatasetPage() {
         page,
         limit: pageSize,
         search: searchTerm,
+        searchField,
         sortBy,
         sortOrder,
         purchased: purchasedFilter !== "" ? Number(purchasedFilter) : null,
@@ -113,7 +115,7 @@ export default function DatasetPage() {
 
   useEffect(() => {
     fetchRecords();
-  }, [activeTable, page, pageSize, purchasedFilter, categoryFilter, deviceFilter, sortBy, sortOrder]);
+  }, [activeTable, page, pageSize, searchField, purchasedFilter, categoryFilter, deviceFilter, sortBy, sortOrder]);
 
   // Handle Search Debounce / Submit
   const handleSearchSubmit = (e) => {
@@ -414,8 +416,43 @@ export default function DatasetPage() {
             borderRadius: "10px",
             border: "1px solid rgba(255, 255, 255, 0.06)"
           }}>
-            {/* Search Input */}
-            <form onSubmit={handleSearchSubmit} style={{ display: "flex", alignItems: "center", gap: "8px", flex: "1 1 260px", minWidth: "220px", maxWidth: "380px" }}>
+            {/* Search Input & Field Scope Selector */}
+            <form onSubmit={handleSearchSubmit} style={{ display: "flex", alignItems: "center", gap: "8px", flex: "1 1 320px", minWidth: "260px", maxWidth: "460px" }}>
+              {/* Search Scope Filter */}
+              <select
+                value={searchField}
+                onChange={(e) => { setSearchField(e.target.value); setPage(1); }}
+                style={{
+                  height: "36px",
+                  padding: "0 10px",
+                  background: "rgba(15, 23, 42, 0.9)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: "8px",
+                  color: "#93c5fd",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  outline: "none",
+                  cursor: "pointer",
+                  flexShrink: 0
+                }}
+                title="Select search attribute"
+              >
+                <option value="all">🔍 All Columns</option>
+                {activeTable === "transactions" && (
+                  <>
+                    <option value="session_id"># Session ID</option>
+                    <option value="customer_id">👤 Customer ID</option>
+                    <option value="product_id">📦 Product ID</option>
+                  </>
+                )}
+                {activeTable === "customers" && (
+                  <option value="customer_id">👤 Customer ID</option>
+                )}
+                {activeTable === "products" && (
+                  <option value="product_id">📦 Product ID</option>
+                )}
+              </select>
+
               <div style={{
                 position: "relative",
                 width: "100%",
@@ -425,7 +462,15 @@ export default function DatasetPage() {
                 <Search size={15} color="var(--text-dim)" style={{ position: "absolute", left: "12px", pointerEvents: "none" }} />
                 <input
                   type="text"
-                  placeholder={`Search ${activeTable} by ID, value, or text...`}
+                  placeholder={
+                    searchField === "session_id"
+                      ? "Search Session ID (e.g. 9339)..."
+                      : searchField === "customer_id"
+                      ? "Search Customer ID (e.g. 9339 or CUST-9339)..."
+                      : searchField === "product_id"
+                      ? "Search Product ID (e.g. 1001)..."
+                      : `Search ${activeTable} by text, ID, or value...`
+                  }
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   style={{
@@ -576,7 +621,15 @@ export default function DatasetPage() {
               </select>
 
               <button
-                onClick={fetchRecords}
+                onClick={() => {
+                  setSearchTerm("");
+                  setSearchField("all");
+                  setCategoryFilter("");
+                  setDeviceFilter("");
+                  setPurchasedFilter("");
+                  setPage(1);
+                  fetchRecords();
+                }}
                 style={{
                   height: "36px",
                   width: "36px",
@@ -590,7 +643,7 @@ export default function DatasetPage() {
                   alignItems: "center",
                   justifyContent: "center"
                 }}
-                title="Refresh Table"
+                title="Reset Filters & Refresh"
               >
                 <RefreshCw size={14} className={tableLoading ? "spin" : ""} />
               </button>

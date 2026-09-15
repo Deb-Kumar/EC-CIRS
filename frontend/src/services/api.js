@@ -193,6 +193,9 @@ export const api = {
     page = 1,
     limit = 25,
     search = "",
+    searchField = "all",
+    sessionId = null,
+    customerId = null,
     sortBy = null,
     sortOrder = "asc",
     purchased = null,
@@ -201,6 +204,9 @@ export const api = {
   } = {}) => {
     let query = `?table=${encodeURIComponent(table)}&page=${page}&limit=${limit}&sort_order=${sortOrder}`;
     if (search) query += `&search=${encodeURIComponent(search)}`;
+    if (searchField && searchField !== "all") query += `&search_field=${encodeURIComponent(searchField)}`;
+    if (sessionId) query += `&session_id=${encodeURIComponent(sessionId)}`;
+    if (customerId) query += `&customer_id=${encodeURIComponent(customerId)}`;
     if (sortBy) query += `&sort_by=${encodeURIComponent(sortBy)}`;
     if (purchased !== null && purchased !== undefined && purchased !== "") query += `&purchased=${purchased}`;
     if (category !== null && category !== undefined && category !== "") query += `&category=${category}`;

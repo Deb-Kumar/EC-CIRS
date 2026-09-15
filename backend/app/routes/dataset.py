@@ -275,6 +275,9 @@ def get_dataset_records(
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(25, ge=1, le=100, description="Records per page"),
     search: Optional[str] = Query(None, description="Global text/ID search"),
+    search_field: Optional[str] = Query("all", description="Target search field: all, session_id, customer_id, product_id"),
+    session_id: Optional[str] = Query(None, description="Filter specifically by session ID"),
+    customer_id: Optional[str] = Query(None, description="Filter specifically by customer ID"),
     sort_by: Optional[str] = Query(None, description="Column name to sort by"),
     sort_order: str = Query("asc", pattern="^(asc|desc)$", description="Sort order"),
     purchased: Optional[int] = Query(None, description="Filter purchased flag (0 or 1)"),
@@ -284,7 +287,22 @@ def get_dataset_records(
     """Paginated, searchable, and filterable data grid provider."""
     df = load_dataframe(table).copy()
 
-    # Apply Filters
+    # Apply Direct Entity Filters
+    if session_id is not None and str(session_id).strip() != "" and "session_id" in df.columns:
+        sid_str = str(session_id).replace("#", "").strip()
+        if sid_str.isdigit():
+            df = df[df["session_id"] == int(sid_str)]
+        else:
+            df = df[df["session_id"].astype(str).str.contains(sid_str, na=False)]
+
+    if customer_id is not None and str(customer_id).strip() != "" and "customer_id" in df.columns:
+        cid_str = str(customer_id).upper().replace("CUST-", "").replace("CUST_", "").replace("CUST", "").replace("#", "").strip()
+        if cid_str.isdigit():
+            df = df[df["customer_id"] == int(cid_str)]
+        else:
+            df = df[df["customer_id"].astype(str).str.contains(cid_str, case=False, na=False)]
+
+    # Apply Categorical & Status Filters
     if table == "transactions":
         if purchased is not None and "purchased" in df.columns:
             df = df[df["purchased"] == purchased]
@@ -293,14 +311,31 @@ def get_dataset_records(
         if device is not None and "device_type" in df.columns:
             df = df[df["device_type"] == device]
 
-    # Global search
+    # Search Query Handling (Scoped by search_field or Global)
     if search:
-        search_lower = str(search).strip().lower()
-        mask = pd.Series(False, index=df.index)
-        for col in df.columns:
-            # Check string or number representation
-            mask = mask | df[col].astype(str).str.lower().str.contains(search_lower, na=False)
-        df = df[mask]
+        search_raw = str(search).strip()
+        search_lower = search_raw.lower()
+        clean_num = search_lower.replace("cust-", "").replace("cust_", "").replace("cust", "").replace("#", "").strip()
+
+        if search_field == "session_id" and "session_id" in df.columns:
+            if clean_num.isdigit():
+                df = df[df["session_id"].astype(str).str.contains(clean_num, na=False)]
+            else:
+                df = df[df["session_id"].astype(str).str.lower().str.contains(search_lower, na=False)]
+        elif search_field == "customer_id" and "customer_id" in df.columns:
+            if clean_num.isdigit():
+                df = df[df["customer_id"].astype(str).str.contains(clean_num, na=False)]
+            else:
+                df = df[df["customer_id"].astype(str).str.lower().str.contains(search_lower, na=False)]
+        elif search_field == "product_id" and "product_id" in df.columns:
+            df = df[df["product_id"].astype(str).str.contains(clean_num, na=False)]
+        else:
+            # Global multi-column search
+            mask = pd.Series(False, index=df.index)
+            for col in df.columns:
+                # Check string or number representation
+                mask = mask | df[col].astype(str).str.lower().str.contains(search_lower, na=False)
+            df = df[mask]
 
     # Sorting
     if sort_by and sort_by in df.columns:
